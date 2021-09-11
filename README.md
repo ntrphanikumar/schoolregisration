@@ -38,6 +38,20 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
 ##### Student Course Management - Accessible by Student
 * Register to course
 
+### Steps to Build and Run Application
+##### Prerequisites
+* JDK 11 installed
+##### Steps
+* ``./mvnw clean install`` to build application jar
+* ``docker-compose up`` will build docker image of application and launch both mysql8 db and application
+* If you have mysql already installed on localhost, 
+  * Update dbusername and password in docker-compose.yml file
+  * Start application with ``docker-compose up app``
+* If you want to connect to a remote mysql
+  * Update details of db in docker-compose.yml file and
+  * Start only application with ``docker-compose up app``
+
+
 ### Points to Note
 * An OauthClient is created as part of seed data. New ones can directly be seeded to DB with migration.
   * client_id: apiclient
