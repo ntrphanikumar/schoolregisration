@@ -406,3 +406,5 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
   * client_secret: apiclient
 * A default student and a course are seeded as seeddata.
 * Admin users cannot be created on fly. Currently an admin user credentails are hardcoded in application.properties
+* Max students per course and Max courses per student are now configured in application.properties
+  * We can move them to course and student entities respectively and we will be able to support different configuration for each course and student.
