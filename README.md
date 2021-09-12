@@ -16,13 +16,45 @@ School registration system to create students and courses and students can regis
 All the apis can be found and imported from postman collection
 https://www.getpostman.com/collections/65617e2d095c0745a0b4
 ##### OAuth
-* [Admin Token](https://github.com/ntrphanikumar/schoolregisration/tree/master/apispec/oAuth/AdminToken.md)
-* [Student Token](https://github.com/ntrphanikumar/schoolregisration/tree/master/apispec/oAuth/StudentToken.md)
+###### Admin Token
+  * POST https://localhost:8080/oauth/token?grant_type=password
+  * RequestHeaders
+    * Authorization: Basic Auth with ``$clientid:$clientsecret``
+    * Content-Type: application/x-www-form-urlencoded
+  * RequestBody
+    * username: <studentusername>
+    * password: <studentpassword>
+  * ResponseBody
+    ```
+    {
+      "access_token": "OrdrZMjLT_EotJP1G7sn2CAjMGI",
+      "token_type": "bearer",
+      "expires_in": 43199,
+      "scope": "read write user_info"
+    }
+    ```
+###### Student Token
+  * POST https://localhost:8080/oauth/token?grant_type=password
+  * RequestHeaders
+    * Authorization: Basic Auth with ``$clientid:$clientsecret``
+    * Content-Type: application/x-www-form-urlencoded
+  * RequestBody
+    * username: <adminuser>
+    * password: <adminpassword>
+  * ResponseBody
+    ```
+    {
+      "access_token": "OrdrZMjLT_EotJP1G7sn2CAjMGI",
+      "token_type": "bearer",
+      "expires_in": 43199,
+      "scope": "read write user_info"
+    }
+    ```
 ##### Student Management - Only by Admin
-* Create Student
+###### Create Student
   * POST http://localhost:8080/api/v1/students
   * Request Headers:
-    * Authorization: Bearer <adminoauthtoken>
+    * Authorization: ``Bearer <adminoauthtoken>``
     * Content-Type: application/json
   * Request Body:
     ```
@@ -50,10 +82,11 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
     * Status: 200 OK on success
     * Status: 401 Unauthorized for invalid token or token is of not admin user
     * Status: 400 Bad Request in case of validation failures
-* Update Student
+    * Username should be unique
+###### Update Student
   * PUT http://localhost:8080/api/v1/students/3
   * Request Headers:
-    * Authorization: Bearer <adminoauthtoken>
+    * Authorization: ``Bearer <adminoauthtoken>``
     * Content-Type: application/json
   * Request Body: Only firstname, lastname, email and mobilenumber can be updated
     ```
@@ -79,10 +112,10 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
     * Status: 200 OK on success
     * Status: 401 Unauthorized for invalid token or token is of not admin user
     * Status: 400 Bad Request in case of validation failures
-* Get Student By Id
+###### Get Student By Id
   * GET http://localhost:8080/api/v1/students/3
   * Request Headers:
-    * Authorization: Bearer <adminoauthtoken>
+    * Authorization: ``Bearer <adminoauthtoken>``
   * Response Body:
     ```
     {
@@ -98,10 +131,10 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
     * Status: 200 OK on success
     * Status: 401 Unauthorized for invalid token or token is of not admin user
     * Status: 400 Bad Request in case of student not found
-* Get All Students
+###### Get All Students
   * GET http://localhost:8080/api/v1/students
   * Request Headers:
-    * Authorization: Bearer <adminoauthtoken>
+    * Authorization: ``Bearer <adminoauthtoken>``
   * Response Body:
     ```
     [
@@ -118,28 +151,240 @@ https://www.getpostman.com/collections/65617e2d095c0745a0b4
   * Details
     * Status: 200 OK on success
     * Status: 401 Unauthorized for invalid token or token is of not admin user
-* Delete Student
+###### Delete Student
   * DELETE http://localhost:8080/api/v1/students/3
   * Request Headers:
-    * Authorization: Bearer <adminoauthtoken>
+    * Authorization: ``Bearer <adminoauthtoken>``
   * Response Body: no content
   * Details
     * Status: 200 OK on success
     * Status: 401 Unauthorized for invalid token or token is of not admin user
     * Status: 400 Bad Request in case of student not found
 ##### Course Management - Only by Admin
-* Create Course
-* Update Course
-* Get Course By Id
-* Get All Courses
-* Delete Course
-##### Reports - Only by Admin
-* Show All Students without their course details
-* Show All Courses without their student details
-* Get All Courses for Student
-* Get All Students for Course
+###### Create Course
+  * POST http://localhost:8080/api/v1/courses
+  * Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+    * Content-Type: application/json
+  * Request Body:
+    ```
+    {
+      "name": "DS & Algos Basic11",
+      "description": "Data structures and Algos basic course"
+    }
+    ```
+  * Response Body:
+    ```
+    {
+      "id": 2,
+      "name": "DS & Algos Basic11",
+      "description": "Data structures and Algos basic course"
+    }
+    ```
+  * Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of validation failures
+    * Course name should be unique
+###### Update Course
+  * POST http://localhost:8080/api/v1/courses/2
+  * Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+    * Content-Type: application/json
+  * Request Body:
+    ```
+    {
+      "description": "Data structures and Algos basic course"
+    }
+    ```
+  * Response Body:
+    ```
+    {
+      "id": 2,
+      "name": "DS & Algos Basic11",
+      "description": "Data structures and Algos basic course"
+    }
+    ```
+  * Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of validation failures
+    * Only description can be modified
+###### Get Course By Id
+* GET http://localhost:8080/api/v1/courses/2
+* Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  {
+    "id": 2,
+    "name": "DS & Algos Basic11",
+    "description": "Data structures and Algos basic course"
+  }
+  ```
+* Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of course not found
+###### Get All Courses
+* GET http://localhost:8080/api/v1/courses
+* Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  [
+    {
+        "id": 1,
+        "name": "DS & Algos Basic",
+        "description": "Data structures and Algos basic course"
+    },
+    {
+        "id": 2,
+        "name": "DS & Algos Basic11",
+        "description": "Data structures and Algos basic course"
+    }
+  ]
+  ```
+* Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of course not found
+###### Delete Course
+* DELETE http://localhost:8080/api/v1/courses/2
+* Request Headers:
+  * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body: no content
+* Details
+  * Status: 200 OK on success
+  * Status: 401 Unauthorized for invalid token or token is of not admin user
+  * Status: 400 Bad Request in case of course not found
+##### Report APIs
+###### Show All Students without their course details
+* GET http://localhost:8080/api/v1/reports/listStudents
+* Request Headers:
+  * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  [
+    {
+        "id": 2,
+        "firstName": "Hello",
+        "lastName": "valo",
+        "email": "ntrphanikumar@gmail.com",
+        "username": "phani1"
+    },
+    {
+        "id": 3,
+        "firstName": "Hello",
+        "lastName": "valo",
+        "email": "ntrphanikumar@gmail.com",
+        "username": "phani2"
+    }
+  ]
+  ```
+* Details
+  * Status: 200 OK on success
+  * Status: 401 Unauthorized for invalid token or token is of not admin user
+###### Show All Courses without their student details
+* GET http://localhost:8080/api/v1/reports/listCourses
+* Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  [
+    {
+        "id": 1,
+        "name": "DS & Algos Basic",
+        "description": "Data structures and Algos basic course"
+    },
+    {
+        "id": 2,
+        "name": "DS & Algos Basic11",
+        "description": "Data structures and Algos basic course"
+    }
+  ]
+  ```
+* Details
+  * Status: 200 OK on success
+  * Status: 401 Unauthorized for invalid token or token is of not admin user
+###### Get All Courses for Student
+* GET http://localhost:8080/api/v1/reports/coursesFor/1
+* Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  [
+    {
+        "id": 1,
+        "name": "DS & Algos Basic",
+        "description": "Data structures and Algos basic course"
+    },
+    {
+        "id": 2,
+        "name": "DS & Algos Basic11",
+        "description": "Data structures and Algos basic course"
+    }
+  ]
+  ```
+* Details
+  * Status: 200 OK on success
+  * Status: 401 Unauthorized for invalid token or token is of not admin user
+  * Status: 400 Bad Request in case of student not found
+###### Get All Students for Course
+* GET http://localhost:8080/api/v1/reports/studentsFor/1
+* Request Headers:
+    * Authorization: ``Bearer <adminoauthtoken>``
+* Response Body:
+  ```
+  [
+    {
+        "id": 2,
+        "firstName": "Hello",
+        "lastName": "valo",
+        "email": "ntrphanikumar@gmail.com",
+        "username": "phani1"
+    },
+    {
+        "id": 3,
+        "firstName": "Hello",
+        "lastName": "valo",
+        "email": "ntrphanikumar@gmail.com",
+        "username": "phani2"
+    }
+  ]
+  ```
+* Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of course not found
 ##### Student Course Management - Accessible by Student
-* Register to course
+###### Register to course
+* GET http://localhost:8080/api/v1/registerTo/1
+  * In the url path param ``1`` is courseid
+  * student is determined from his oauth token to avoid ambiguity
+* Request Headers:
+    * Authorization: ``Bearer <studentoauthtoken>``
+* Response Body:
+  ```
+  {
+    "id": 1,
+    "firstName": "Phani Kumar",
+    "lastName": "N T R",
+    "email": "ntrphanikumar@gmail.com",
+    "username": "phani",
+    "courses": [
+        {
+            "id": 1,
+            "name": "DS & Algos Basic",
+            "description": "Data structures and Algos basic course"
+        }
+    ]
+  }
+  ```
+* Details
+    * Status: 200 OK on success
+    * Status: 401 Unauthorized for invalid token or token is of not admin user
+    * Status: 400 Bad Request in case of course not found
 
 ### Steps to Build and Run Application
 ##### Prerequisites
