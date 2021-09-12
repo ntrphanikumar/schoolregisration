@@ -1,13 +1,10 @@
 package com.ntrpk.schoolregistration.model;
 
-import com.ntrpk.schoolregistration.configuration.EntityListener;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@EntityListeners(EntityListener.class)
 @Table(name = "courses")
 public class Course extends Model {
 

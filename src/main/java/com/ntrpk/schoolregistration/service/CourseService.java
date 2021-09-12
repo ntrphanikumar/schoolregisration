@@ -45,11 +45,11 @@ public class CourseService {
         LOGGER.info("Updating course: {}", courseDTO.getId());
         courseValidator.validateForUpdate(courseDTO);
         Course course = courseRepository.getById(courseDTO.getId());
-        if (!StringUtils.isEmpty(courseDTO.getDescription())) {
+        if (StringUtils.hasText(courseDTO.getDescription())) {
             course.setDescription(courseDTO.getDescription());
         }
         LOGGER.info("Updated course with id: {}", course.getId());
-        return mapper.toCourseDto(course);
+        return mapper.toCourseDto(courseRepository.save(course));
     }
 
     public CourseDTO getCourse(long courseId) {

@@ -7,10 +7,10 @@ CREATE TABLE IF NOT EXISTS students (
   password varchar(128) NOT NULL,
   mobile_number varchar(16) DEFAULT NULL,
   course_count int NOT NULL DEFAULT 0,
-  created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_by varchar(128) NOT NULL DEFAULT 'System',
-  updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_by varchar(128) NOT NULL DEFAULT 'System',
+  created_at datetime NOT NULL,
+  created_by varchar(128) NOT NULL,
+  updated_at datetime NOT NULL,
+  updated_by varchar(128) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UK_student_username (username)
 );
@@ -20,10 +20,10 @@ CREATE TABLE IF NOT EXISTS courses (
   name varchar(128) NOT NULL,
   description varchar(512) NOT NULL,
   student_count int NOT NULL DEFAULT 0,
-  created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_by varchar(255) NOT NULL DEFAULT 'System',
-  updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_by varchar(255) NOT NULL DEFAULT 'System',
+  created_at datetime NOT NULL,
+  created_by varchar(255) NOT NULL,
+  updated_at datetime NOT NULL,
+  updated_by varchar(255) NOT NULL,
   PRIMARY KEY (id),
   UNIQUE KEY UK_course_name (name)
 );

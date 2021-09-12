@@ -4,12 +4,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.Date;
 
+@MappedSuperclass
 public abstract class Model {
 
     @CreationTimestamp
@@ -60,5 +61,23 @@ public abstract class Model {
 
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    @PrePersist
+    public void touchForCreate() {
+        touchForUpdate();
+        setCreatedBy(getUpdatedBy());
+        setCreatedAt(getUpdatedAt());
+    }
+
+    @PreUpdate
+    public void touchForUpdate() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            setUpdatedBy(((UserDetails) principal).getUsername());
+        } else {
+            setUpdatedBy("System");
+        }
+        setUpdatedAt(new Date());
     }
 }

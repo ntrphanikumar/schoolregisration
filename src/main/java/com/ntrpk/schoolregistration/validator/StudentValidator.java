@@ -40,7 +40,7 @@ public class StudentValidator {
             ? "First name is mandatory" : null;
     private Validator<StudentDTO, String> nonEmptyLastName = student -> StringUtils.isEmpty(student.getLastName())
             ? "Last name is mandatory" : null;
-    private Validator<StudentDTO, String> uniqueUsername = student -> !StringUtils.isEmpty(student.getUsername())
+    private Validator<StudentDTO, String> uniqueUsername = student -> StringUtils.hasText(student.getUsername())
             && studentRepository.findByUsername(student.getUsername()).isPresent() ? "Username already in use." : null;
     private Validator<StudentDTO, String> studentExists = studentDto -> studentRepository.existsById(studentDto.getId())
             ? null : "No Student found";

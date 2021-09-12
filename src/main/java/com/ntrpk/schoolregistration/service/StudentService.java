@@ -48,24 +48,23 @@ public class StudentService {
         LOGGER.info("Updating student with id: {}", studentDTO.getId());
         studentValidator.validateForUpdate(studentDTO);
         Student student = studentRepository.getById(studentDTO.getId());
-        if (!StringUtils.isEmpty(studentDTO.getEmail())) {
+        if (StringUtils.hasText(studentDTO.getEmail())) {
             student.setEmail(studentDTO.getEmail());
         }
-        if (!StringUtils.isEmpty(studentDTO.getMobileNumber())) {
+        if (StringUtils.hasText(studentDTO.getMobileNumber())) {
             student.setMobileNumber(studentDTO.getMobileNumber());
         }
-        if (!StringUtils.isEmpty(studentDTO.getPassword())) {
+        if (StringUtils.hasText(studentDTO.getPassword())) {
             student.setPassword(studentDTO.getPassword());
         }
-        if (!StringUtils.isEmpty(studentDTO.getFirstName())) {
+        if (StringUtils.hasText(studentDTO.getFirstName())) {
             student.setFirstName(studentDTO.getFirstName());
         }
-        if (!StringUtils.isEmpty(studentDTO.getLastName())) {
+        if (StringUtils.hasText(studentDTO.getLastName())) {
             student.setLastName(studentDTO.getLastName());
         }
-        student = studentRepository.save(student);
         LOGGER.info("Updated student with id: {}", student.getId());
-        return mapper.toStudentDto(student);
+        return mapper.toStudentDto(studentRepository.save(student));
     }
 
     public StudentDTO getStudentById(long id) {

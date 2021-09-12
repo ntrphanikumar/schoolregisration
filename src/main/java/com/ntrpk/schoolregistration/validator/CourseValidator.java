@@ -20,7 +20,7 @@ public class CourseValidator {
             ? "Course name is mandatory" : null;
     private Validator<CourseDTO, String> nonEmptyDescription = course -> StringUtils.isEmpty(course.getDescription())
             ? "Description is mandatory" : null;
-    private Validator<CourseDTO, String> uniqueName = course -> !StringUtils.isEmpty(course.getName())
+    private Validator<CourseDTO, String> uniqueName = course -> StringUtils.hasText(course.getName())
             && courseRepository.findByName(course.getName()).isPresent() ? "Name already in use." : null;
     private Validator<CourseDTO, String> courseExists = course -> courseRepository.existsById(course.getId())
             ? null : "No Course found";
